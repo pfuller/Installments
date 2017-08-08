@@ -44,7 +44,6 @@
             this.txtAmtDue = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.txtNumInstallments = new System.Windows.Forms.TextBox();
-            this.btnCalcSchedule = new System.Windows.Forms.Button();
             this.dataGridInstallments = new System.Windows.Forms.DataGridView();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -67,7 +66,7 @@
             this.txtPremium.Name = "txtPremium";
             this.txtPremium.Size = new System.Drawing.Size(221, 31);
             this.txtPremium.TabIndex = 0;
-            this.txtPremium.TextChanged += new System.EventHandler(this.txtPremium_TextChanged);
+            this.txtPremium.Leave += new System.EventHandler(this.txtPremium_Leave);
             // 
             // label1
             // 
@@ -84,7 +83,7 @@
             this.txtBrokerage.Name = "txtBrokerage";
             this.txtBrokerage.Size = new System.Drawing.Size(221, 31);
             this.txtBrokerage.TabIndex = 2;
-            this.txtBrokerage.TextChanged += new System.EventHandler(this.txtBrokerage_TextChanged);
+            this.txtBrokerage.Leave += new System.EventHandler(this.txtBrokerage_Leave);
             // 
             // label2
             // 
@@ -101,7 +100,7 @@
             this.txtTax1.Name = "txtTax1";
             this.txtTax1.Size = new System.Drawing.Size(212, 31);
             this.txtTax1.TabIndex = 4;
-            this.txtTax1.TextChanged += new System.EventHandler(this.txtTax1_TextChanged);
+            this.txtTax1.Leave += new System.EventHandler(this.txtTax1_Leave);
             // 
             // label3
             // 
@@ -127,7 +126,7 @@
             this.txtTax2.Name = "txtTax2";
             this.txtTax2.Size = new System.Drawing.Size(212, 31);
             this.txtTax2.TabIndex = 7;
-            this.txtTax2.TextChanged += new System.EventHandler(this.txtTax2_TextChanged);
+            this.txtTax2.Leave += new System.EventHandler(this.txtTax2_Leave);
             // 
             // label5
             // 
@@ -144,7 +143,7 @@
             this.txtPctBrokerage.Name = "txtPctBrokerage";
             this.txtPctBrokerage.Size = new System.Drawing.Size(188, 31);
             this.txtPctBrokerage.TabIndex = 9;
-            this.txtPctBrokerage.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            this.txtPctBrokerage.Leave += new System.EventHandler(this.txtPctBrokerage_Leave);
             // 
             // label6
             // 
@@ -170,7 +169,7 @@
             this.txtNetPremium.Name = "txtNetPremium";
             this.txtNetPremium.Size = new System.Drawing.Size(316, 31);
             this.txtNetPremium.TabIndex = 12;
-            this.txtNetPremium.TextChanged += new System.EventHandler(this.txtNetPremium_TextChanged);
+            this.txtNetPremium.Leave += new System.EventHandler(this.txtNetPremium_Leave);
             // 
             // txtAmtDue
             // 
@@ -178,7 +177,7 @@
             this.txtAmtDue.Name = "txtAmtDue";
             this.txtAmtDue.Size = new System.Drawing.Size(318, 31);
             this.txtAmtDue.TabIndex = 13;
-            this.txtAmtDue.TextChanged += new System.EventHandler(this.txtAmtDue_TextChanged);
+            this.txtAmtDue.Leave += new System.EventHandler(this.txtAmtDue_Leave);
             // 
             // label8
             // 
@@ -195,16 +194,7 @@
             this.txtNumInstallments.Name = "txtNumInstallments";
             this.txtNumInstallments.Size = new System.Drawing.Size(100, 31);
             this.txtNumInstallments.TabIndex = 15;
-            // 
-            // btnCalcSchedule
-            // 
-            this.btnCalcSchedule.Location = new System.Drawing.Point(408, 107);
-            this.btnCalcSchedule.Name = "btnCalcSchedule";
-            this.btnCalcSchedule.Size = new System.Drawing.Size(273, 37);
-            this.btnCalcSchedule.TabIndex = 16;
-            this.btnCalcSchedule.Text = "Calculate Schedule";
-            this.btnCalcSchedule.UseVisualStyleBackColor = true;
-            this.btnCalcSchedule.Click += new System.EventHandler(this.btnCalcSchedule_Click);
+            this.txtNumInstallments.Leave += new System.EventHandler(this.txtNumInstallments_Leave);
             // 
             // dataGridInstallments
             // 
@@ -330,7 +320,6 @@
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.dataGridInstallments);
-            this.Controls.Add(this.btnCalcSchedule);
             this.Controls.Add(this.txtNumInstallments);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.txtAmtDue);
@@ -374,7 +363,6 @@
         private System.Windows.Forms.TextBox txtAmtDue;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtNumInstallments;
-        private System.Windows.Forms.Button btnCalcSchedule;
         private System.Windows.Forms.DataGridView dataGridInstallments;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;

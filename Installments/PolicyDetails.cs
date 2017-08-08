@@ -21,14 +21,14 @@ namespace Installments
 
         public PolicyDetails()
         {
-            this.Premium = new decimal(0.00);
-            this.BrokeragePct = 0;
-            this.Brokerage = new decimal(0.00);
-            this.Tax1 = new decimal(0.00);
-            this.Tax2 = new decimal(0.00);
-            this.NetPremium = new decimal(0.00);
-            this.AmountDue = new decimal(0.00);
-            this.NumInstallments = 1;
+            this.Premium = new decimal(100.00);
+            this.BrokeragePct = 10;
+            this.Brokerage = new decimal(10.00);
+            this.Tax1 = new decimal(5.00);
+            this.Tax2 = new decimal(5.00);
+            this.NetPremium = new decimal(90.00);
+            this.AmountDue = new decimal(110.00);
+            this.NumInstallments = 12;
         }
 
         public PolicyDetails(decimal premium, int brokeragePct, decimal brokerage,

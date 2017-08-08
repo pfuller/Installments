@@ -12,7 +12,7 @@ namespace Installments
 {
     public partial class InstallmentsForm : Form
     {
-        private Policy _policy; 
+        private Policy _policy;
 
         public InstallmentsForm()
         {
@@ -23,16 +23,6 @@ namespace Installments
         {
             // Set some defaults programatically
             displayPolicy(InstallmentCalculator.initialisePolicy());
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-            // TODO: Recalculate Brokerage
-        }
-
-        private void btnCalcSchedule_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void displayPolicy(Policy policy)
@@ -52,7 +42,14 @@ namespace Installments
 
             dataGridInstallments.DataSource = policy.Installments;
 
-            throw new NotImplementedException("Implement Summing up Installments and displaying them");
+            var summary = InstallmentCalculator.summariseInstallments(policy.Installments);
+
+            txtTotPrem.Text = summary.Premium.ToString();
+            txtTotBkrg.Text = summary.Brokerage.ToString();
+            txtTotTax1.Text = summary.Tax1.ToString();
+            txtTotTax2.Text = summary.Tax2.ToString();
+            txtTotNetPrem.Text = summary.NetPremium.ToString();
+            txtTotDue.Text = summary.AmountDue.ToString();
 
             _policy = policy;
         }
@@ -61,7 +58,7 @@ namespace Installments
         {
             try
             {
-
+                // Convert all the input to a policy
                 Policy initialPolicy = new Policy()
                 {
                     PolicyDetails = new PolicyDetails(Decimal.Parse(txtPremium.Text),
@@ -71,6 +68,10 @@ namespace Installments
                         int.Parse(txtNumInstallments.Text)),
                     Installments = new List<Installment>()
                 };
+
+                // Correct the calculations
+                initialPolicy.PolicyDetails.NetPremium = CalculateNetPremium(initialPolicy);
+                initialPolicy.PolicyDetails.AmountDue = CalculateAmountDue(initialPolicy);
 
                 return InstallmentCalculator.CalculateInstallments(initialPolicy);
 
@@ -83,39 +84,63 @@ namespace Installments
             }
         }
 
-        private void calculatePolicy(object sender, EventArgs e)
+        private decimal CalculateNetPremium(Policy policy)
+        {
+            return policy.PolicyDetails.Premium - policy.PolicyDetails.Brokerage;
+        }
+
+        private decimal CalculateAmountDue(Policy policy)
+        {
+            // Assume direct policy, commision is not deducted
+            return policy.PolicyDetails.Premium + policy.PolicyDetails.Tax1 + policy.PolicyDetails.Tax2; 
+        }
+
+        private void txtPremium_Leave(object sender, EventArgs e)
         {
             displayPolicy(calculatePolicy());
         }
 
-        private void txtPremium_TextChanged(object sender, EventArgs e)
+        private void txtBrokerage_Leave(object sender, EventArgs e)
         {
-            calculatePolicy(sender, e);
+            displayPolicy(calculatePolicy());
         }
 
-        private void txtBrokerage_TextChanged(object sender, EventArgs e)
+        private void txtTax1_Leave(object sender, EventArgs e)
         {
-            calculatePolicy(sender, e);
+            displayPolicy(calculatePolicy());
         }
 
-        private void txtTax1_TextChanged(object sender, EventArgs e)
+        private void txtTax2_Leave(object sender, EventArgs e)
         {
-            calculatePolicy(sender, e);
+            displayPolicy(calculatePolicy());
         }
 
-        private void txtTax2_TextChanged(object sender, EventArgs e)
+        private void txtNetPremium_Leave(object sender, EventArgs e)
         {
-            calculatePolicy(sender, e);
+            displayPolicy(calculatePolicy());
         }
 
-        private void txtNetPremium_TextChanged(object sender, EventArgs e)
+        private void txtAmtDue_Leave(object sender, EventArgs e)
         {
-            calculatePolicy(sender, e);
+            displayPolicy(calculatePolicy());
         }
 
-        private void txtAmtDue_TextChanged(object sender, EventArgs e)
+        private void txtPctBrokerage_Leave(object sender, EventArgs e)
         {
-            calculatePolicy(sender, e);
+            try
+            {
+                txtBrokerage.Text = (Decimal.Parse(txtPremium.Text) * ((decimal)int.Parse(txtPctBrokerage.Text) / 100)).ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error calculating Brokerage: {ex.Message}", "Error calculating Brokerage",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void txtNumInstallments_Leave(object sender, EventArgs e)
+        {
+            displayPolicy(calculatePolicy());
         }
     }
 }
