@@ -58,6 +58,19 @@ namespace Installments
         {
             try
             {
+                // Correct Brokerage
+                try
+                {
+                    txtBrokerage.Text = Decimal.Round(
+                                (Decimal.Parse(txtPremium.Text) *
+                                ((decimal)int.Parse(txtPctBrokerage.Text) / 100)), 2).ToString();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error calculating Brokerage: {ex.Message}", "Error calculating Brokerage",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
                 // Convert all the input to a policy
                 Policy initialPolicy = new Policy()
                 {
@@ -127,15 +140,7 @@ namespace Installments
 
         private void txtPctBrokerage_Leave(object sender, EventArgs e)
         {
-            try
-            {
-                txtBrokerage.Text = (Decimal.Parse(txtPremium.Text) * ((decimal)int.Parse(txtPctBrokerage.Text) / 100)).ToString();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error calculating Brokerage: {ex.Message}", "Error calculating Brokerage",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            displayPolicy(calculatePolicy());
         }
 
         private void txtNumInstallments_Leave(object sender, EventArgs e)

@@ -46,31 +46,47 @@ namespace Installments
 
             foreach (var instNum in Enumerable.Range(1, policy.PolicyDetails.NumInstallments))
             {
-                if (instNum == 1)
-                {
-                    decimal diff = firstInstallment(policy, policy.PolicyDetails.AmountDue) *
-                            (100 / policy.PolicyDetails.AmountDue);
-
-                    policy.Installments.Add(new Installment(instNum, firstInstallment(policy, policy.PolicyDetails.Premium),
-                                                firstInstallment(policy, policy.PolicyDetails.Brokerage),
-                                                firstInstallment(policy, policy.PolicyDetails.Tax1),
-                                                firstInstallment(policy, policy.PolicyDetails.Tax2),
-                                                diff, 
-                                                firstInstallment(policy, policy.PolicyDetails.AmountDue)));
-                } else
-                {
-
-                    decimal diff = calcInstallment(policy, policy.PolicyDetails.AmountDue) *
-        (100 / policy.PolicyDetails.AmountDue);
-
-                    policy.Installments.Add(new Installment(instNum, calcInstallment(policy, policy.PolicyDetails.Premium),
-                                                calcInstallment(policy, policy.PolicyDetails.Brokerage),
-                                                calcInstallment(policy, policy.PolicyDetails.Tax1),
-                                                calcInstallment(policy, policy.PolicyDetails.Tax2),
-                                                diff, 
-                                                calcInstallment(policy, policy.PolicyDetails.AmountDue)));
-                }
+                policy.Installments.Add(calcInstallment(instNum, policy));
             }
+        }
+
+        private static Installment calcInstallment(int instNum, Policy policy)
+        {
+            var totInst = policy.PolicyDetails.NumInstallments;
+
+            decimal premium;
+            decimal brokerage;
+            decimal tax1;
+            decimal tax2;
+
+            if (instNum == 1)
+            {
+                premium = firstInstallment(totInst, policy.PolicyDetails.Premium);
+                brokerage = firstInstallment(totInst, policy.PolicyDetails.Brokerage);
+                tax1 = firstInstallment(totInst, policy.PolicyDetails.Tax1);
+                tax2 = firstInstallment(totInst, policy.PolicyDetails.Tax2);
+            }
+            else
+            {
+                premium = calcInstallment(totInst, policy.PolicyDetails.Premium);
+                brokerage = calcInstallment(totInst, policy.PolicyDetails.Brokerage);
+                tax1 = calcInstallment(totInst, policy.PolicyDetails.Tax1);
+                tax2 = calcInstallment(totInst, policy.PolicyDetails.Tax2);
+            }
+
+            return new Installment(instNum, premium, brokerage, tax1, tax2,
+                (premium - brokerage), (premium + tax1 + tax2));
+        }
+
+        private static Decimal firstInstallment(int installments, Decimal amount)
+        {
+            Decimal otherInstallments = calcInstallment(installments, amount) * (installments - 1);
+            return amount - otherInstallments;
+        }
+
+        private static Decimal calcInstallment(int installments, Decimal amount)
+        {
+            return Math.Floor(amount / installments);
         }
 
         //private void allocateInstallments<T>(List<Installment> Installments, Policy policy,
@@ -88,18 +104,5 @@ namespace Installments
         //        }
         //    }
         //}
-
-        private static Decimal firstInstallment(Policy policy, Decimal totalAmount)
-        {
-            var average = totalAmount / policy.PolicyDetails.NumInstallments;
-            var roundedAvg = Decimal.Round(average, 0);
-            return Decimal.Round(roundedAvg + ((average - roundedAvg) * policy.PolicyDetails.NumInstallments));
-        }
-
-        private static Decimal calcInstallment(Policy policy, Decimal totalAmount)
-        {
-            var average = totalAmount / policy.PolicyDetails.NumInstallments;
-            return Decimal.Round(average, 0);
-        }
     }
 }
