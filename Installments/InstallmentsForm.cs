@@ -27,16 +27,18 @@ namespace Installments
 
         private void displayPolicy(Policy policy)
         {
-            txtPremium.Text = policy.PolicyDetails.Premium.ToString();
+            var fmt = "{0:.00}";
+
+            txtPremium.Text = String.Format(fmt, policy.PolicyDetails.Premium);
 
             txtPctBrokerage.Text = policy.PolicyDetails.BrokeragePct.ToString();
-            txtBrokerage.Text = policy.PolicyDetails.Brokerage.ToString();
+            txtBrokerage.Text = String.Format(fmt, policy.PolicyDetails.Brokerage);
 
-            txtTax1.Text = policy.PolicyDetails.Tax1.ToString();
-            txtTax2.Text = policy.PolicyDetails.Tax2.ToString();
+            txtTax1.Text = String.Format(fmt, policy.PolicyDetails.Tax1);
+            txtTax2.Text = String.Format(fmt, policy.PolicyDetails.Tax2);
 
-            txtNetPremium.Text = policy.PolicyDetails.NetPremium.ToString();
-            txtAmtDue.Text = policy.PolicyDetails.AmountDue.ToString();
+            txtNetPremium.Text = String.Format(fmt, policy.PolicyDetails.NetPremium); 
+            txtAmtDue.Text = String.Format(fmt, policy.PolicyDetails.AmountDue);
 
             txtNumInstallments.Text = policy.PolicyDetails.NumInstallments.ToString();
 
@@ -96,7 +98,7 @@ namespace Installments
                 return _policy;
             }
         }
-
+        
         private decimal CalculateNetPremium(Policy policy)
         {
             return policy.PolicyDetails.Premium - policy.PolicyDetails.Brokerage;
