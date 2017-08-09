@@ -11,7 +11,7 @@ This Solution was built in Visual Studio 2017 and .Net Framework 4.5.2
 License
 -------
 
-See [license.txt](LICENSE) file.
+See [LICENSE](license.txt) file.
 
 Support
 -------
